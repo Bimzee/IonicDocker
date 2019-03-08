@@ -1,13 +1,13 @@
 FROM ubuntu:17.10
-LABEL Maximiliano Suster <maximiliano.suster@allmyhomes.com>
+LABEL Maximiliano Suster <mxsstr93@gmail.com>
 
 # -----------------------------------------------------------------------------
 # Environment variables
 # -----------------------------------------------------------------------------
-ENV GIT_EMAIL="maximiliano.suster@allmyhomes.com" \
+ENV GIT_EMAIL="mxsstr93@gmail.com" \
     GIT_NAME="Maximiliano Suster"
 
-ENV NODE_VERSION=9.11.1
+ENV NODE_VERSION=11.11.0
 ENV NPM_VERSION=latest
 ENV IONIC_VERSION=latest
 ENV CORDOVA_VERSION=latest
@@ -92,17 +92,17 @@ RUN \
 RUN unset ANDROID_LICENSES
   
 # awscli
-RUN apt-get update && \
-    apt-get install -y \
-        python3 \
-        python3-pip \
-        python3-setuptools \
-        groff \
-        less \
-    && pip3 install --upgrade pip \
-    && apt-get clean
+# RUN apt-get update && \
+#     apt-get install -y \
+#         python3 \
+#         python3-pip \
+#         python3-setuptools \
+#         groff \
+#         less \
+#     && pip3 install --upgrade pip \
+#     && apt-get clean
 
-RUN pip3 --no-cache-dir install --upgrade awscli
+# RUN pip3 --no-cache-dir install --upgrade awscli
 
 # -----------------------------------------------------------------------------
 # Post-install

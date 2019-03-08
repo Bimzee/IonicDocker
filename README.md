@@ -1,45 +1,45 @@
-## Create running Ionic 3 container
+## Create running Ionic 4 container
 
 **Build container:**
 ```bash
 $ cd /[folder with Dockerfile]
-$ docker build -t ionic3 .
+$ docker build -t ionic4 .
 ```
 
 **Create alias:**
 ```bash
-$ alias ionic3="docker run -it --rm -v $PWD:/project:rw -p 8100:8100 -p 35729:35729 -p 53703:53703 --name ionic-app ionic3 ionic"
+$ alias ionic4='docker run -it --rm -v $PWD:/project:rw -p 8100:8100 -p 35729:35729 -p 53703:53703 --name ionic-app ionic4 ionic'
 ```
 
 **Create app:**
 ```bash
-$ cd ionic3-myapp
-$ ionic3 start phabricator-client
+$ cd ionic4-myapp
+$ ionic4 start ionicApp
 ```
 
 **Serve app at localhost:**
 ```bash
-$ ionic3 serve
+$ ionic4 serve
 ```
 
 **Build app:**
 ```bash
-$ ionic3 build
+$ ionic4 build
 ```
 
 **Other Ionic options:**
 ```bash
-$ ionic3
+$ ionic4
 ```
 
 **Working with container:**
 ```bash
 # stop container
-$ docker stop ionic3
+$ docker stop ionic4
 # remove container
-$ docker rm ionic3
+$ docker rm ionic4
 # enter container
-$ docker exec -it ionic3
+$ docker exec -it ionic4
 ```
 
 **References**
