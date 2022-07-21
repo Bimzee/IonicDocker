@@ -1,4 +1,4 @@
-FROM ubuntu:17.10
+FROM ubuntu:21.10
 LABEL Maximiliano Suster <mxsstr93@gmail.com>
 
 # -----------------------------------------------------------------------------
@@ -26,7 +26,7 @@ ENV PATH ${PATH}:${GRADLE_HOME}/bin:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/
 RUN \
   dpkg --add-architecture i386 \
   && apt-get update -y \
-  && apt-get install -y \
+  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     # tools
     curl \
     wget \
@@ -36,8 +36,8 @@ RUN \
     # android-sdk dependencies
     libc6-i386 \
     lib32stdc++6 \
-    lib32gcc1 \
-    lib32ncurses5 \
+    lib32gcc-s1 \
+    libncurses5-dev:i386 \
     lib32z1 \
     qemu-kvm \
     kmod
@@ -57,15 +57,37 @@ RUN . ~/.bashrc
 RUN apt-get install -y --no-install-recommends openjdk-8-jdk
 
 # Install Node and NPM
+#ENV NVM_DIR /root/.nvm
+#RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.35.3/install.sh | bash && . $NVM_DIR/nvm.sh 
+#RUN . ~/.bashrc
+
+#ENV NVM_DIR /usr/local/nvm
+#RUN mkdir -p /usr/local/nvm
+#RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+
+#RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
+#ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/lib/node_modules
+#ENV PATH      $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
+#RUN . ~/.bashrc
+
+SHELL ["/bin/bash", "--login", "-i", "-c"]
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
+RUN source /root/.bashrc && nvm install 12.14.1 && npm install -g npm
+SHELL ["/bin/bash", "--login", "-c"]
+
+
+
 RUN \
   apt-get update -qqy \
-  && curl --retry 3 -SLO "http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
-  && tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
-  && rm "node-v$NODE_VERSION-linux-x64.tar.gz" \
+  #&& curl --retry 3 -SLO "http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
+  #&& tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
+  #&& rm "node-v$NODE_VERSION-linux-x64.tar.gz" \
   && npm install -g npm@"$NPM_VERSION" \
   && npm install -g cordova@"$CORDOVA_VERSION" ionic@"$IONIC_VERSION" \
   && npm install -g karma-cli@latest \
   && npm install --save express
+  
+
 # Download and install Gradle
 RUN \
   cd /opt \
